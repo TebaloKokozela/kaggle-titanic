@@ -172,3 +172,10 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# ignore files
+.DS_Store
+raw/
+precessed/
+
+
