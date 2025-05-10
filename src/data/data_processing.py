@@ -21,6 +21,7 @@ def process_deck(df,is_train = False, encoder = None):
         encoder = OrdinalEncoder()
         encoder.fit(array_form)
         df['DeckNum'] = encoder.transform(array_form)
+        df.fillna({'DeckNum':-1},inplace=True)
 
     else:
         encoder.transform(array_form)
@@ -42,6 +43,7 @@ def data_processor(df):
 
     # map embarked to (0,1,2)
     df['Embarked'] = df['Embarked'].map({'C':0,'Q':1,'S':'2'})
+    df.fillna({'Embarked':0},inplace=True)
 
     # count number of passengers on each ticket
     ticket_capacity = df['Ticket'].value_counts()

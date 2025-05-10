@@ -10,3 +10,4 @@ df, encoder =  process_deck(df,is_train=True,encoder=None)
 df = data_processor(df)
 
 df.to_csv('data/processed/titanic_clean.csv',index=True)
+#print(df.info())
