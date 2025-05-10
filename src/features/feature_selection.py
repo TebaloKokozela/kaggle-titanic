@@ -43,5 +43,6 @@ plt.tight_layout()
 selectPerc =  SelectPercentile(f_classif,percentile=50)
 X_new = selectPerc.fit_transform(X_val,y_val)
 
+features =  selectPerc.get_feature_names_out()
 
-print(selectPerc.get_feature_names_out())
+print(features)
