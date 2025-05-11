@@ -1,20 +1,38 @@
+from unittest.mock import inplace
 
 from src.data.data_loader import load_data
 from sklearn.preprocessing import OrdinalEncoder
 import numpy as np
-from configs import features,process_deck
 
 import pandas as pd
 
+def process_deck(df,is_train = False, encoder = None):
+    # handle missing data
+    df['Missing_Cabin'] = pd.isnull(df['Cabin'])
+    mask_cabin = df['Missing_Cabin'] == False
+    df['Deck'] = (df.loc[mask_cabin, 'Cabin'].apply(lambda m: m[0]))
+    # remove special case 'T'
+    df['Deck'].replace('T', np.nan)
+    # convert data to array
+    array_form = np.array(df['Deck']).reshape(-1, 1)
 
-df, encoder = process_deck("../../data/raw/train.csv")
+    if is_train and encoder is None:
+        encoder = OrdinalEncoder()
+        encoder.fit(array_form)
+        df['DeckNum'] = encoder.transform(array_form)
+        df.fillna({'DeckNum':-1},inplace=True)
 
+    else:
+        encoder.transform(array_form)
 
+    return df, encoder
 
-def data_processor(df,encoder = encoder):
+def data_processor(df,encoder = None):
     # fillna on the Age variable
     df['Missing_Age'] = df['Age'].isnull()
     df.fillna({'Age':-1},inplace=True)
+    avg_fare = np.nanmean(df['Fare'])
+    df.fillna({'Fare':avg_fare},inplace=True)
 
     # Working on the Cabin variable
     # create a columns to indicate missing Cabin numbers
