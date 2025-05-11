@@ -37,8 +37,9 @@ axs[1].set_title('Feature P-values')
 axs[1].set_xlabel('P-value')
 
 plt.tight_layout()
-# plt.savefig('../../outputs/plots/feature_selection.png')
-# plt.show()
+plt.savefig('../../outputs/plots/feature_selection.png')
+plt.show()
+
 
 selectPerc =  SelectPercentile(f_classif,percentile=50)
 X_new = selectPerc.fit_transform(X_val,y_val)

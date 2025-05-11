@@ -32,6 +32,7 @@ def process_deck(df,is_train = False, encoder = None):
 
 def data_processor(df):
     # fillna on the Age variable
+    df['Missing_Age'] = df['Age'].isnull()
     df.fillna({'Age':-1},inplace=True)
 
 
@@ -52,7 +53,7 @@ def data_processor(df):
     df =  df.merge(right=ticket_capacity, left_on='Ticket', right_index=True)
 
     # remove columns that won't be used for model
-    df.drop(['Name','Cabin','Ticket','Deck','Missing_Cabin'], axis=1, inplace=True)
+    df.drop(['Name','Cabin','Ticket','Deck'], axis=1, inplace=True)
 
 
     return df
