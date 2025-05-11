@@ -1,5 +1,4 @@
 
-
 from configs import features
 from sklearn.linear_model import LogisticRegression
 from src.data.data_loader import  load_data

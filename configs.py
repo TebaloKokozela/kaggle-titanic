@@ -28,4 +28,4 @@ from sklearn.preprocessing import OrdinalEncoder
 #     return df, encoder
 #
 
-features = ['Pclass', 'Sex','Fare','DeckNum']
+features = ['Pclass', 'Sex','Fare','Missing_Cabin','DeckNum']
