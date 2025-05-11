@@ -13,6 +13,7 @@ df, encoder = process_deck("../../data/raw/train.csv")
 
 def data_processor(df,encoder = encoder):
     # fillna on the Age variable
+    df['Missing_Age'] = df['Age'].isnull()
     df.fillna({'Age':-1},inplace=True)
 
     # Working on the Cabin variable
@@ -39,7 +40,7 @@ def data_processor(df,encoder = encoder):
     df =  df.merge(right=ticket_capacity, left_on='Ticket', right_index=True)
 
     # remove columns that won't be used for model
-    df.drop(['Name','Cabin','Ticket','Deck','Missing_Cabin'], axis=1, inplace=True)
+    df.drop(['Name','Cabin','Ticket','Deck'], axis=1, inplace=True)
 
 
     return df
