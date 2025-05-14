@@ -61,7 +61,7 @@ df_test = X_test_new[df_cols.columns]
 print(X.shape, df_cols.columns )
 print(X.columns == df_test.columns)
 
-lr = LogisticRegression(C=1,solver='liblinear',penalty='l1')
+lr = LogisticRegression(C=np.sqrt(10),solver='liblinear',penalty='l1')
 lr.fit(X,Y)
 
 print(f"\n{'='*100}\n")
