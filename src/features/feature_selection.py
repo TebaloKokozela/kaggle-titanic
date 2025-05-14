@@ -72,7 +72,7 @@ select_per.fit_transform(Poly_X,y_val)
 print(select_per.get_feature_names_out())
 
 print(f"Poly_shape: {Poly_X.shape} y_val shape : {y_val.shape}")
-Poly_X_filter = Poly_X #[select_per.get_feature_names_out()]
+Poly_X_filter = Poly_X[select_per.get_feature_names_out()]
 Poly_X_filter.index = X_val.index
 Poly_X_filter.index.name = X_val.index.name
 print('\n')

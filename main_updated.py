@@ -50,13 +50,13 @@ X_test_new.columns =  Poly.get_feature_names_out()
 X_new.index = X.index
 X_new.index.name = X.index.name
 
-X = X_new #[df_cols.columns]
+X = X_new[df_cols.columns]
 
 X_test_new = pd.DataFrame(X_test_new)
 X_test_new.index = df_test.index
 X_test_new.index.name = df_test.index.name
 
-df_test = X_test_new #[df_cols.columns]
+df_test = X_test_new[df_cols.columns]
 
 print(X.shape, df_cols.columns )
 print(X.columns == df_test.columns)
@@ -73,4 +73,4 @@ y_pred =  lr.predict(df_test)
 
 
 pd.DataFrame({'Survived':y_pred},
-             index=df_test.index).to_csv('data/submission/gender_submission_v2.csv',index=True)
+             index=df_test.index).to_csv('data/submission/gender_submission_v3.csv',index=True)
