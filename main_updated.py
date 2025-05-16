@@ -6,6 +6,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import PolynomialFeatures
 import pandas as pd
 from sklearn.metrics import roc_auc_score
+from sklearn.neighbors import KNeighborsClassifier
 
 print('Running file main.py')
 
@@ -61,7 +62,7 @@ df_test = X_test_new[df_cols.columns]
 print(X.shape, df_cols.columns )
 print(X.columns == df_test.columns)
 
-lr = LogisticRegression(C=np.sqrt(10),solver='liblinear',penalty='l1')
+lr = KNeighborsClassifier(n_neighbors=9)
 lr.fit(X,Y)
 
 print(f"\n{'='*100}\n")
@@ -73,4 +74,4 @@ y_pred =  lr.predict(df_test)
 
 
 pd.DataFrame({'Survived':y_pred},
-             index=df_test.index).to_csv('data/submission/gender_submission_v3.csv',index=True)
+             index=df_test.index).to_csv('data/submission/gender_submission_knn.csv',index=True)
