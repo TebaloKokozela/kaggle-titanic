@@ -1,7 +1,9 @@
 from src.data.data_loader import load_data
 from src.data.data_processing import  data_processor,process_deck
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.preprocessing import StandardScaler
 import pandas as pd
 from sklearn.metrics import roc_auc_score
 
@@ -33,17 +35,23 @@ Y = df['Survived']
 X = df.drop('Survived',axis=1)
 
 print(X.columns == df_test.columns)
+df_test = df_test[X.columns]
+df_ix = df_test.index.copy()
 
-lr = RandomForestClassifier(max_depth=7,n_estimators=10)
+scalar =  StandardScaler()
+X = scalar.fit_transform(X)
+df_test =  scalar.transform(df_test)
+
+lr = SVC(C=0.1,kernel='rbf',gamma=0.1)
 lr.fit(X,Y)
 
 print(f"{'='*100}")
-print(f"Test Score: {roc_auc_score(Y,lr.predict(X))}" )
+print(f"Train Score: {roc_auc_score(Y,lr.predict(X))}" )
 print(f"{'='*100}")
 
-print(df_test[X.columns].isnull().sum())
+# print(df_test[X.columns].isnull().sum())
 
-y_pred =  lr.predict(df_test[X.columns])
+y_pred =  lr.predict(df_test)
 
 pd.DataFrame({'Survived':y_pred},
-             index=df_test.index).to_csv('data/submission/gender_submission_v5.csv',index=True)
+             index=df_ix).to_csv('data/submission/gender_submission_svm.csv',index=True)

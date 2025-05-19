@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 from sklearn.model_selection import GridSearchCV, train_test_split
-from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import StandardScaler
+from sklearn.svm import SVC
 import seaborn as sns
 import pandas as pd
 import numpy as np
@@ -21,19 +22,25 @@ print(df.info())
 Y = df['Survived']
 X = df.drop('Survived',axis=1)
 
-X_train,X_test,y_train,y_test = train_test_split(X,Y,test_size=0.2,random_state=42)
+scalar =  StandardScaler()
+X =  scalar.fit_transform(X)
+
+X_train,X_test,y_train,y_test = train_test_split(X,Y,test_size=0.2,random_state=3)
 
 print(Y.value_counts(dropna=False))
-knn = KNeighborsClassifier()
-
-n_num = np.arange(20)
-k_values = 2 * n_num + 1
+svm = SVC(gamma='scale')
 
 
+step_points =  np.logspace(-3,3,7)
 
-params_dict = {'n_neighbors':k_values}
+C_vals = step_points
+gamma_vals = step_points
 
-gsi = GridSearchCV(estimator=knn,cv=4,scoring='roc_auc',
+kernel_vals = ['rbf']
+
+params_dict = {'kernel':kernel_vals,'C':C_vals,'gamma':gamma_vals}
+
+gsi = GridSearchCV(estimator=svm,cv=4,scoring='roc_auc',
                    return_train_score=True,param_grid=params_dict,verbose=3)
 
 gsi.fit(X_train,y_train)
@@ -60,15 +67,15 @@ print(f"train roc: {roc_auc_score(y_train,y_train_roc)} ")
 print(f"\n{'='*100}\n")
 
 
-
-plt.figure()
-plt.errorbar(y=results_df['mean_train_score'],yerr=results_df['std_train_score'],x=k_values,label='train score')
-plt.errorbar(y=results_df['mean_test_score'],yerr=results_df['std_test_score'],x=k_values,label='test score')
-plt.xticks(k_values)
-plt.title('Validation Curve for Knn$')
-plt.legend()
-plt.xlabel('K-values')
-plt.ylabel('roc auc score')
-plt.savefig('../../outputs/performance_plots/Validation_Curve_knn.png')
-plt.show()
-
+#
+# plt.figure()
+# plt.errorbar(y=results_df['mean_train_score'],yerr=results_df['std_train_score'],x=k_values,label='train score')
+# plt.errorbar(y=results_df['mean_test_score'],yerr=results_df['std_test_score'],x=k_values,label='test score')
+# plt.xticks(k_values)
+# plt.title('Validation Curve for Knn$')
+# plt.legend()
+# plt.xlabel('K-values')
+# plt.ylabel('roc auc score')
+# plt.savefig('../../outputs/performance_plots/Validation_Curve_knn.png')
+# plt.show()
+#

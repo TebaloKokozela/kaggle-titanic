@@ -3,6 +3,7 @@ import numpy as np
 from src.data.data_loader import load_data
 from src.data.data_processing import  data_processor,process_deck
 from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
 from sklearn.preprocessing import PolynomialFeatures
 import pandas as pd
 from sklearn.metrics import roc_auc_score
